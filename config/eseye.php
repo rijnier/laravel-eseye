@@ -40,7 +40,7 @@ return [
 
     'file_cache_location' => storage_path('eseye/cache'),
     
-    'redis_cache_location' => env('REDIS_HOST', '127.0.0.1'),
+    'redis_cache_location' => env('ESEYE_REDIS_HOST', env('REDIS_HOST', '127.0.0.1')),
     'redis_cache_prefix' => env('ESEYE_REDIS_PREFIX', 'eseye:'),
 
     'memcached_cache_host' => env('MEMCACHED_HOST', '127.0.0.1'),
