@@ -2,7 +2,9 @@
 
 namespace MichaelCooke\LaravelEseye;
 
+use Monolog\Logger;
 use Seat\Eseye\Eseye;
+use Seat\Eseye\Configuration;
 use Illuminate\Support\ServiceProvider;
 use Seat\Eseye\Containers\EsiAuthentication;
 
@@ -33,6 +35,26 @@ class LaravelEseyeServiceProvider extends ServiceProvider
                 'secret'        => config('eseye.secret_key'),
                 'refresh_token' => config('eseye.refresh_token'),
             ]);
+
+            $configuration = Configuration::getInstance();
+
+            $configuration->datasource = config('eseye.datasource');
+
+            $configuration->logger           = 'Seat\\Eseye\\Log\\' . ucfirst(config('eseye.logger')) . 'Logger';
+            $configuration->logger_level     = config('eseye.logger_level');
+            $configuration->logfile_location = config('eseye.logfile_location');
+
+            $configuration->cache = 'Seat\\Eseye\\Cache\\' . ucfirst(config('eseye.cache')) . 'Cache';
+
+            $configuration->file_cache_location = config('eseye.file_cache_location');
+
+            $configuration->redis_cache_location = 'tcp://' . config('eseye.redis_cache_location');
+            $configuration->redis_cache_prefix   = config('eseye.redis_cache_prefix');
+
+            $configuration->memcached_cache_host = config('eseye.memcached_cache_host');
+            $configuration->memcached_cache_host = config('eseye.memcached_cache_port');
+            $configuration->memcached_cache_host = config('eseye.memcached_cache_prefix');
+            $configuration->memcached_cache_host = config('eseye.memcached_cache_compressed');
 
             return new Eseye($authentication);
         });
